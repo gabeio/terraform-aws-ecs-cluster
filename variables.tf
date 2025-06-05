@@ -1,7 +1,11 @@
 variable "container_insights_enabled" {
   description = "Whether or not to enable container insights"
-  type        = bool
+  type        = any
   default     = true
+  validation {
+    condition = contains([true, false, "enhanced"], var.container_insights_enabled)
+    error_message = "The 'container_insights_enabled' value must be one of true, false, 'enhanced'"
+  }
 }
 
 variable "kms_key_id" {
@@ -174,12 +178,6 @@ variable "capacity_providers_ec2" {
     condition     = !contains(["FARGATE", "FARGATE_SPOT"], keys(var.capacity_providers_ec2))
     error_message = "'FARGATE' and 'FARGATE_SPOT' name is reserved"
   }
-}
-
-variable "enhanced_container_insights_enabled" {
-  description = "Whether or not to enable enhanced container insights (requires container_insights_enabled to be true also)"
-  type        = bool
-  default     = false
 }
 
 variable "external_ec2_capacity_providers" {

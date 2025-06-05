@@ -32,7 +32,7 @@ resource "aws_ecs_cluster" "default" {
 
   setting {
     name  = "containerInsights"
-    value = var.container_insights_enabled ? var.enhanced_container_insights_enabled ? "enhanced" : "enabled" : "disabled"
+    value = var.container_insights_enabled ? contains(["enhanced"], var.container_insights_enabled) ? "enhanced" : "enabled" : "disabled"
   }
 
   configuration {
