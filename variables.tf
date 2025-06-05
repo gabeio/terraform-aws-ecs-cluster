@@ -176,6 +176,12 @@ variable "capacity_providers_ec2" {
   }
 }
 
+variable "enhanced_container_insights_enabled" {
+  description = "Whether or not to enable enhanced container insights (requires container_insights_enabled to be true also)"
+  type        = bool
+  default     = false
+}
+
 variable "external_ec2_capacity_providers" {
   description = "External EC2 autoscale groups capacity providers"
   type = map(object({
