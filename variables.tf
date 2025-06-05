@@ -3,8 +3,11 @@ variable "container_insights_enabled" {
   type        = any
   default     = true
   validation {
-    # condition = contains([true, false, "enhanced"], var.container_insights_enabled)
-    condition = can(tostring(var.container_insights_enabled)) && contains(["true", "false", "enhanced"], tostring(var.container_insights_enabled))
+    condition = (
+      try(var.container_insights_enabled == true, false) ||
+      try(var.container_insights_enabled == false, false) ||
+      try(var.container_insights_enabled == "enhanced", false)
+    )
     error_message = "The 'container_insights_enabled' value must be one of true, false, 'enhanced'"
   }
 }

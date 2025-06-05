@@ -22,6 +22,12 @@ locals {
       base              = var.default_capacity_strategy.base.provider == name ? var.default_capacity_strategy.base.value : null
     }
   ]
+
+  container_insights_options = {
+    true = "enabled"
+    false = "disabled"
+    "enhanced" = "enhanced"
+  }
 }
 
 
@@ -32,7 +38,7 @@ resource "aws_ecs_cluster" "default" {
 
   setting {
     name  = "containerInsights"
-    value = var.container_insights_enabled ? contains(["enhanced"], var.container_insights_enabled) ? "enhanced" : "enabled" : "disabled"
+    value = local.container_insights_options[var.container_insights_enabled]
   }
 
   configuration {
